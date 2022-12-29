@@ -5,7 +5,7 @@
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="account" column="account"/>
-        <result property="pwd" column="pwd"/>
+        <result property="password" column="pwd"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
 </resultMap>
@@ -20,7 +20,11 @@
 <!--    <update id="updateSasLoadStatus" parameterType="com.example.ymusic.domain.SasLoad">-->
 <!--        update sas_load_test set status = #{status} , task_code = #{taskCode} where id = #{id}-->
 <!--    </update>-->
-
-
-
+        <update id="updateUser"></update>
+        <select id="getUserBYAccount" resultType="java.lang.Integer">
+                select count(1) from t_user where account = #{account}
+        </select>
+        <select id="getUserMsgByAccount" resultMap="userResultMap">
+                select * from t_user where account = #{account}
+        </select>
 </mapper>

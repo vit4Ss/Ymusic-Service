@@ -11,13 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @ResponseBody
 @Controller
 @Slf4j
-@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
+
 
 
     @RequestMapping("/singUp") // 注册
@@ -28,9 +31,18 @@ public class UserController {
             result.setData("该账户已存在");
             return result;
         }
-        else
             userService.singUp(user);
         return result;
+    }
+    @RequestMapping("/hello")
+    public String HelloRes(){
+        return "Hello";
+    }
+
+    @RequestMapping("/")
+    public void  toRedirect(HttpServletResponse response) throws IOException {
+        //"redirect:要访问的相对网址或绝对网址?参数名="+参数值;
+        response.sendRedirect("/hello");
     }
 
 }

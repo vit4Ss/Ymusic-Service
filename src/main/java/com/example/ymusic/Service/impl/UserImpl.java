@@ -28,10 +28,12 @@ public class UserImpl implements UserService {
         return userMapper.updateUser(user);
     }
 
+    @Override
     public int getUserByAccount(String account) {
         return userMapper.getUserBYAccount(account);
     }
 
+    @Override
     public int singUp(User user) {
         //user.setCreateTime(System.currentTimeMillis());
         user.setCreateTime(DateUtil.date(System.currentTimeMillis()));

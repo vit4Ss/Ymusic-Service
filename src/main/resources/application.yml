@@ -1,9 +1,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
     password: 123456
     url: jdbc:mysql://120.48.78.129:3307/cube?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
-    username: root
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.example.ymusic.domain
+server:
+  port: 8080
+jwttoken:
+  jwt:
+    secret: 6d22a0ebdc87019d58045f5a99c406a4
+    expired: 3600
+    header: Authorization
