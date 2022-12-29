@@ -8,5 +8,6 @@ public interface UserMapper {
     int getUserBYAccount(String account);
     int  updateUser(User user);
     User getUserMsgByAccount(String account);
-    int singUp(User user);
+    void userLogin(User user);
+    //int singUp(User user);
 }

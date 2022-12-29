@@ -6,6 +6,6 @@ public interface UserService {
     User getUserMsgByAccount(String account);
     int updateUser(User user);
     int getUserByAccount(String account);
-
-    int singUp(User user);
+    void userLogin(User user);
+    //int singUp(User user);
 }

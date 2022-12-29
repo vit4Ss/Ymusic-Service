@@ -1,9 +1,46 @@
 spring:
+  mail:
+    host: smtp.163.com # 发件服务器地址,不同邮件平台地址不同
+    port: 465 #常用邮件端口25、109、110、143、465、995、993、994 如果开启了SSL安全则使用对应的端口号，25为非加密端口号
+    username: 17671298856@163.com #发送邮件的账号
+    password: LSZZYUYAOFYDORZL #发送邮件账号的授权码,这里的授权码不是验证码.需要到邮箱
+    default-encoding: utf-8 #设置编码
+    properties: # 设置邮件超时时间防止服务器阻塞
+      timeout: 5000
+      connection-timeout: 5000
+      write-timeout: 5000
+      mail:
+        debug: true #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+          #官方建议使用 465 端口，而 465 端口是 SSL 协议的，所以不仅要换端口，
+          #还需要进行 SSL 协议替换。下面是在 application.properties 进行的邮件发送相关配置，
+        smtp:
+            socketFactory:
+              port: 465
+            #socketFactoryClass: javax.net.ssl.SSLSocketFactory #配饰 SSL 加密工厂
+            ssl:
+              enable: true
+    protocol: smtp
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
     password: 123456
     url: jdbc:mysql://120.48.78.129:3307/cube?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
-    username: root
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.example.ymusic.domain
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080
+jwt-token:
+  jwt:
+    secret: 6d22a0ebdc87019d58045f5a99c406a4
+    expired: 3600
+    header: Authorization
+
+#网易邮箱授权码
+#LSZZYUYAOFYDORZL
+
+
