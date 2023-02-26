@@ -8,11 +8,14 @@ import com.example.ymusic.domain.LoginUser;
 import com.example.ymusic.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,8 +30,10 @@ import java.io.IOException;
 public class UserController {
     @Autowired
     UserService userService;
-
-
+    @Autowired
+    UserDetailsService userDetailsService;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
 //    @RequestMapping("/hello")
 //    public String HelloRes(){
@@ -38,13 +43,17 @@ public class UserController {
 
 
     @RequestMapping("/hello")
-    public String HelloRes() {
+    public Result<Object> HelloRes() {
+        log.info("Hello");
+        Result<Object> result = new Result<Object>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
+        LoginUser userDetails = (LoginUser) authentication.getPrincipal();
+        result.setCode(ResultEnum.SUCCESS.getCode());
+        result.setMsg(ResultEnum.SUCCESS.getMsg());
+        result.setData(userDetails);
         //String password = userDetails.getPassword();
        // List<GrantedAuthority> authorities = (List<GrantedAuthority>) userDetails.getAuthorities();
-        return "hello"+username;
+        return result;
     }
 
     @RequestMapping("/")
@@ -53,4 +62,20 @@ public class UserController {
         response.sendRedirect("/hello");
     }
 
+    @PostMapping("/login")
+    public Result<Object> login(@RequestBody User user) {
+        Result<Object> result = new Result<Object>();
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        if(authenticate==null){
+            throw new RuntimeException("用户名或密码错误");
+        }
+        //使用userid生成token
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+        //String userId = loginUser.getUser().getId().toString();
+        result.setCode(ResultEnum.SUCCESS.getCode());
+        result.setMsg(ResultEnum.SUCCESS.getMsg());
+        result.setData(loginUser);
+        return result;
+    }
 }

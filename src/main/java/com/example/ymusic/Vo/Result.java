@@ -17,5 +17,8 @@ public class Result<T> {
         this(resultEnum);
         this.data = data;
     }
+    public Result() {
+
+    }
 }
 

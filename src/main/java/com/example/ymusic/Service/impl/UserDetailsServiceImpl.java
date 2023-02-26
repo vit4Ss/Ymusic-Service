@@ -30,14 +30,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
         User user = userService.getUserMsgByAccount(account);
-        log.info("User {}",user);
-        log.info("用户登录成功：账号{} 密码{}",user.getEmail(),user.getPassword());
-        if(Objects.isNull(user)){
+        if(user == null){
             throw new UsernameNotFoundException("用户名或密码错误");
         }else {
+            log.info("User {}",user);
+            log.info("用户登录成功：账号{} 密码{}",user.getEmail(),user.getPassword());
             userService.userLogin(user);
         }
-        log.info("User {}",new LoginUser(user));
         return new LoginUser(user);
     }
 }

@@ -20,6 +20,10 @@ spring:
             ssl:
               enable: true
     protocol: smtp
+  redis:
+    host: 120.48.78.129
+    port: 6379
+    password: diyi753951
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root

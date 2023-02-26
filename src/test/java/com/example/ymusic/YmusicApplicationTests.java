@@ -10,11 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @Slf4j
@@ -36,6 +41,8 @@ class YmusicApplicationTests {
 	@Autowired
 	EmailUtils emailUtils;
 
+	@Resource
+	private RedisTemplate<String,String> redisTemplate;
 
 	@Test
 	public void userMapperTest(){
@@ -80,6 +87,17 @@ class YmusicApplicationTests {
 		log.info("{}",email);
 		emailUtils.sendEmail(email);
 	}
+	@Test
+	void setRedisDemo() {
+		ValueOperations<String,String> ops = redisTemplate.opsForValue();    // 首先redisTemplate.opsForValue的目的就是表明是以key，value形式储存到Redis数据库中数据的
+		ops.set("111","222222",120, TimeUnit.SECONDS);// 到这里就表明Redis数据库中存储了key为address1，value为zhengzhou的数据了（取的时候通过key取数据）
+	}
 
+	@Test
+	void getRedis(){
+		ValueOperations<String,String> ops = redisTemplate.opsForValue();
+		Object value = ops.get("111");
+		System.out.println(value);
+	}
 
 }

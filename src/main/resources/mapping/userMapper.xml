@@ -42,6 +42,10 @@
 
         </update>
         <select id="getUserMsgByAccount" resultMap="userResultMap">
-                select * from t_user where email = #{email}
+
+
+                select * from t_user where user_name = #{userName}
         </select>
+
+<!--        ####select * from t_user where email = #{email}####-->
 </mapper>
